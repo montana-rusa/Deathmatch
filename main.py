@@ -1,5 +1,7 @@
 from colorama import init, Fore
 import random
+import myClasses
+init()
 
 def startUp():
 
@@ -18,9 +20,9 @@ def startUp():
       print("")
       for i in range(4):
         print(tributeNames[i])
-      print("These are the current tribute names\nIf you would like to change them, enter your preferred names as a comma separated list")
+      print("\nThese are the current tribute names\nIf you would like to change them, enter your preferred names as a comma separated list")
       print("e.g: Matthew, Mark, Luke, John")
-      print("If you are happy with the current names, enter 'y': ")
+      print("If you are happy with the current names, enter 'y'")
       while not valid:
         thisInput = input("")
         if thisInput == "y":
@@ -41,4 +43,9 @@ def startUp():
     for name in tributeNames:
        print(name)
 
-startUp()
+def event():
+  arena = myClasses.Arena()
+  arena.initiateColours()
+  arena.showMap()
+
+event()
