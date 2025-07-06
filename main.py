@@ -13,14 +13,13 @@ def startUp():
       else:
          valid = True
          tribute_number = int(tribute_number)
-    
+    print("\nThese are the current tribute names:")
     if tribute_number == 4:
       valid = False
       tribute_names = ["Tribute1","Tribute2","Tribute3","Tribute4"]
-      print("")
       for i in range(4):
         print(tribute_names[i])
-      print("\nThese are the current tribute names\nIf you would like to change them, enter your preferred names as a comma separated list")
+      print("\nIf you would like to change them, enter your preferred names as a comma separated list")
       print("e.g: Matthew, Mark, Luke, John")
       print("If you are happy with the current names, enter 'y'")
       while not valid:
@@ -46,18 +45,23 @@ def startUp():
     print("")
     return tribute_number, tribute_names
 
-def event():
-  arena = my_classes.Arena()
-  arena.initiateColours()
-  arena.showMap()
+def event(n):
+  if n == 4:
+    display_map = [["#","#","#","#","#","#","#"],["#","#","#","#","#","#","#"],["#","#","#","1","#","#","#"],["#","#","2","#","4","#","#"],["#","#","#","3","#","#","#"],["#","#","#","#","#","#","#"],["#","#","#","#","#","#","#"]]
+    arena = my_classes.Arena(display_map)
+    arena.initiateColours()
+    arena.showMap()
 
 tribute_number, tribute_names = startUp()
 if tribute_number == 4:
    positions = [[2,3],[3,2],[4,3],[3,4]]
-   trib_1 = my_classes.Tribute(positions[0][1],positions[0][0],tribute_names[0])
-   trib_2 = my_classes.Tribute(positions[1][1],positions[1][0],tribute_names[1])
-   trib_3 = my_classes.Tribute(positions[2][1],positions[2][0],tribute_names[2])
-   trib_4 = my_classes.Tribute(positions[3][1],positions[3][0],tribute_names[3])
+   trib_1 = my_classes.Tribute(positions[0],tribute_names[0],1)
+   trib_2 = my_classes.Tribute(positions[1],tribute_names[1],2)
+   trib_3 = my_classes.Tribute(positions[2],tribute_names[2],3)
+   trib_4 = my_classes.Tribute(positions[3],tribute_names[3],4)
+   Dead = [False,False,False,False]
+   print("This is the arena:\n")
+   event(4)
 
-event()
+   print(Fore.RESET + "\nRemember:\n" + Fore.WHITE + "WHITE = Fields\n"+ Fore.GREEN + "GREEN = Forest\n")
 

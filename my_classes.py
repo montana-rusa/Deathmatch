@@ -3,8 +3,8 @@ from colorama import Fore,init
 init()
 
 class Arena:
-    def __init__(self):
-        self.display_map = [["#","#","#","#","#","#","#"],["#","#","#","#","#","#","#"],["#","#","#","#","#","#","#"],["#","#","#","#","#","#","#"],["#","#","#","#","#","#","#"],["#","#","#","#","#","#","#"],["#","#","#","#","#","#","#"]]
+    def __init__(self,display_map):
+        self.display_map = display_map
         self.colour_map = [["Y","Y","Y","Y","Y","Y","Y"],["Y","Y","Y","Y","Y","Y","Y"],["Y","Y","Y","Y","Y","Y","Y"],["Y","Y","Y","Y","Y","Y","Y"],["Y","Y","Y","Y","Y","Y","Y"],["Y","Y","Y","Y","Y","Y","Y"],["Y","Y","Y","Y","Y","Y","Y"]]
 
     def initiateColours(self):
@@ -29,16 +29,20 @@ class Arena:
         for i in range(7):
           for j in range(7):
               if self.colour_map[i][j] == "Y":
-                  print(Fore.YELLOW + self.display_map[i][j], end = "   ")
+                  print(Fore.WHITE + self.display_map[i][j], end = "   ")
               else: 
                   print(Fore.GREEN + self.display_map[i][j], end = "   ")
-          print("\n")           
+          print("\n")      
+
+    def move_tribute(self,prev_pos,new_pos,number):
+        self.display_map[prev_pos[0]][prev_pos[1]]  = "#"
+        self.display_map[new_pos[0]][new_pos[1]] = str(number)
     
 class Tribute:
-    def __init__(self, x, y, name):
-        self.xPosition = x
-        self.yPosition = y
+    def __init__(self, position, name, number):
+        self.position = position
         self.name = name
+        self.number = number
 
 
             
