@@ -51,17 +51,24 @@ def event(n):
     arena = my_classes.Arena(display_map)
     arena.initiateColours()
     arena.showMap()
+    return arena
 
 tribute_number, tribute_names = startUp()
 if tribute_number == 4:
    positions = [[2,3],[3,2],[4,3],[3,4]]
-   trib_1 = my_classes.Tribute(positions[0],tribute_names[0],1)
-   trib_2 = my_classes.Tribute(positions[1],tribute_names[1],2)
-   trib_3 = my_classes.Tribute(positions[2],tribute_names[2],3)
-   trib_4 = my_classes.Tribute(positions[3],tribute_names[3],4)
+
+   tributes = {}
+   tributes["trib_1"] = my_classes.Tribute(positions[0],tribute_names[0],1)
+   tributes["trib_2"] = my_classes.Tribute(positions[1],tribute_names[1],2)
+   tributes["trib_3"] = my_classes.Tribute(positions[2],tribute_names[2],3)
+   tributes["trib_4"] = my_classes.Tribute(positions[3],tribute_names[3],4)
+
    Dead = [False,False,False,False]
    print("This is the arena:\n")
-   event(4)
+   arena = event(4)
 
    print(Fore.RESET + "\nRemember:\n" + Fore.WHITE + "WHITE = Fields\n"+ Fore.GREEN + "GREEN = Forest\n")
+
+   tributes["trib_1"].move(positions, arena)
+   arena.showMap()
 
