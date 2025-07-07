@@ -53,6 +53,22 @@ def event(n):
     arena.showMap()
     return arena
 
+def battle_scene(p, positions):
+   target = p
+   indices = [i+1 for i, x in enumerate(positions) if x == target]
+   order = random.randint("0,1")
+   message = "Tribute1 and Tribute2 encounter each other and fight."
+   message = message.replace("Tribute1", tributes["trib"+str(indices[0])].name)
+   message = message.replace("Tribute2", tributes["trib"+str(indices[1])].name)
+   if order == 0:
+      print((tributes["trib"+str(indices[0])].name) + " is killed")
+      arena.fight_update(p, indices[1])
+      dead[indices[0]-1] = True
+   else:
+      print((tributes["trib"+str(indices[1])].name) + " is killed")
+      arena.fight_update(p, indices[0])
+      dead[indices[1]-1] = True
+
 tribute_number, tribute_names = startUp()
 if tribute_number == 4:
    positions = [[2,3],[3,2],[4,3],[3,4]]
@@ -63,12 +79,29 @@ if tribute_number == 4:
    tributes["trib_3"] = my_classes.Tribute(positions[2],tribute_names[2],3)
    tributes["trib_4"] = my_classes.Tribute(positions[3],tribute_names[3],4)
 
-   Dead = [False,False,False,False]
+   dead = [False,False,False,False]
    print("This is the arena:\n")
    arena = event(4)
 
    print(Fore.RESET + "\nRemember:\n" + Fore.WHITE + "WHITE = Fields\n"+ Fore.GREEN + "GREEN = Forest\n")
 
-   tributes["trib_1"].move(positions, arena)
+   m, data = tributes["trib_1"].move(positions, arena)
+   if m == "fight":
+      battle_scene(data, positions)
+
+   else: positions = data
    arena.showMap()
+
+   this_round = []
+   for i in range(4):
+      if not dead[i]:
+         this_round.append(i)
+   while this_round != []:
+      current = random.choice(this_round)
+      tributes["trib_" + str(current+1)].move(positions,arena)
+   
+
+
+
+
 

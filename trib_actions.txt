@@ -8,3 +8,4 @@ Tribute heads south and camps in the forest
 Tribute heads east and camps in the forest
 Tribute heads west and camps in the forest
 Tribute stays where they are, hiding in the trees and watching for danger
+Tribute1 and Tribute2 encounter each other and fight. 

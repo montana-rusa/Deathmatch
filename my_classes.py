@@ -43,6 +43,10 @@ class Arena:
         self.display_map[prev_pos[0]][prev_pos[1]]  = "#"
         self.display_map[new_pos[0]][new_pos[1]] = str(number)
 
+    def fight_update(self, pos, number):
+        self.display_map[pos[0]][pos[1]]  = str(number)
+
+
 class Tribute:
     def __init__(self, position, name, number):
         self.position = position
@@ -80,18 +84,20 @@ class Tribute:
           if direction == 4:
               moved = True
 
+          arena.move_tribute(self.position, new_pos, self.number)
+          self.position = new_pos
+
           if positions.count(new_pos) == 2:
-              print("fight!")
+              return "fight", new_pos
+
           else:
-              arena.move_tribute(self.position, new_pos, self.number)
-              self.position = new_pos
               if arena.colour_map[new_pos[0]][new_pos[1]] == "G":
                   message = lines[5 + direction].replace("Tribute",self.name)
               else:
                   message = lines[-1 + direction].replace("Tribute",self.name)
 
               print(message)
-              return positions
+              return "N", positions
           
               
            
