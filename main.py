@@ -56,16 +56,17 @@ def event(n):
 def battle_scene(p, positions):
    target = p
    indices = [i+1 for i, x in enumerate(positions) if x == target]
-   order = random.randint("0,1")
+   print(indices)
+   order = random.randint(0,1)
    message = "Tribute1 and Tribute2 encounter each other and fight."
-   message = message.replace("Tribute1", tributes["trib"+str(indices[0])].name)
-   message = message.replace("Tribute2", tributes["trib"+str(indices[1])].name)
+   message = message.replace("Tribute1", tributes["trib_"+str(indices[0])].name)
+   message = message.replace("Tribute2", tributes["trib_"+str(indices[1])].name)
    if order == 0:
-      print((tributes["trib"+str(indices[0])].name) + " is killed")
+      print((tributes["trib_"+str(indices[0])].name) + " is killed")
       arena.fight_update(p, indices[1])
       dead[indices[0]-1] = True
    else:
-      print((tributes["trib"+str(indices[1])].name) + " is killed")
+      print((tributes["trib_"+str(indices[1])].name) + " is killed")
       arena.fight_update(p, indices[0])
       dead[indices[1]-1] = True
 
@@ -96,9 +97,12 @@ if tribute_number == 4:
    for i in range(4):
       if not dead[i]:
          this_round.append(i)
+   print(this_round)
    while this_round != []:
       current = random.choice(this_round)
-      tributes["trib_" + str(current+1)].move(positions,arena)
+      m, positions = tributes["trib_" + str(current+1)].move(positions,arena)
+      this_round.remove(current)
+      print(this_round)
    
 
 
