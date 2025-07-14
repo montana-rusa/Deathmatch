@@ -1,6 +1,6 @@
-public class Main {
+package mypack;
 
- public class Tribute {
+public class Tribute {
 
     // the tribute is always initially alive
     public boolean alive = true;
@@ -21,12 +21,3 @@ public class Main {
         this.x_position = new_x;
         this.y_position = new_y;
     } } 
-
-  public static void main(String[] args) {}
-}
-
-
-
-
-
-
