@@ -1,0 +1,4 @@
+Tribute moves north
+Tributes moves east
+Tribute moves south
+Tribute moves west
