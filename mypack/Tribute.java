@@ -14,7 +14,8 @@ public class Tribute {
     Tribute(String name, int x_position, int y_position) {
     this.name = name;
     this.x_position = x_position;
-    this.y_position = y_position; }
+    this.y_position = y_position; 
+    }
 
     // updates the tribute's position in the arena
     public void update_position(int new_x, int new_y) {
