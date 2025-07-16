@@ -3,11 +3,16 @@ package mypack;
 import java.util.*;
 
 public class Game {
+
+
  
     // set default list of tribute names
     static String[] tribute_names = {"Tribute0","Tribute1","Tribute2","Tribute3","Tribute4","Tribute5","Tribute6","Tribute7"};
     static List<String> living_tributes = new ArrayList<>();
     static List<String> tributes_to_move = new ArrayList<>();
+
+    public void day_cycle() {
+    }
 
     public void run() {
 
@@ -23,9 +28,9 @@ public class Game {
 
         //analysing and validating user input
         boolean a = false;
-        while (!(a));
+        while (!(a)) {
             user_in = s.nextLine();
-            if (user_in == "y") {
+            if (user_in.trim().equals("y")) {
                 a = true;
             } else {
                 try {
@@ -33,7 +38,7 @@ public class Game {
                 if (tribute_names.length == 8) {a = true;}
             } catch(Exception e) {
                 System.out.println("Not a valid input. Try again:");
-            } } 
+            } } }
 
         System.out.println("This is the list of current tributes:");
         for (int i = 0; i < 8; i++) {
@@ -52,31 +57,16 @@ public class Game {
 
         // adding the names of each tribute to the living_tributes and tributes_to_move list
         for (String key : tributes.keySet()) {
-            if (tributes.get(key).alive == true) {living_tributes.add(tributes.get(key).name);}
-            tributes_to_move.add(key);
-
-
-
-
-        }
-
-
+            if (tributes.get(key).alive == true)  {
+                living_tributes.add(tributes.get(key).name);
+                tributes_to_move.add(key); } }
 
         Arena arena = new Arena();
-
-        
-
-
-
-
-
-
-
+        arena.update_display();
+        arena.display_arena();
 
         s.close();
         }
-
-    
 
     public static void main(String[] args) { } 
 }
