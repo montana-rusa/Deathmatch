@@ -9,8 +9,8 @@ public class Arena {
     //constructor method
     public Arena() {
         arena_display = new char[7][7];
-        for (int i = 1; i < 7; i++) {
-            for (int j = 1; j < 7; j++) {
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) {
                 arena_display[i][j] = '-';
             } } }
 

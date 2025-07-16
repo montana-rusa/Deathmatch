@@ -6,12 +6,70 @@ public class Game {
 
 
  
-    // set default list of tribute names
-    static String[] tribute_names = {"Tribute0","Tribute1","Tribute2","Tribute3","Tribute4","Tribute5","Tribute6","Tribute7"};
-    static List<String> living_tributes = new ArrayList<>();
-    static List<String> tributes_to_move = new ArrayList<>();
+    // set default list of tribute names and other variables
+    String[] tribute_names = {"Tribute0","Tribute1","Tribute2","Tribute3","Tribute4","Tribute5","Tribute6","Tribute7"};
+    List<String> living_tributes = new ArrayList<>();
+    List<String> tributes_to_move = new ArrayList<>();
+    Map<String, Tribute> tributes = new HashMap<>();
+    Random rand = new Random();
+    Tribute current_tribute;
+    int current_index; int movement_index;
+    Arena arena = new Arena();
+    String current_key;
+    char current_char;
+    public int[][] positions;
+
+    public boolean array_checker(int[][] a, int[]item) {
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] == item) {
+                return true;
+            }
+        } return false; }
+
+    public void positions_sync() {
+        positions = new int[8][2];
+        for (int i = 0; i < 8; i++) {
+            positions[i] = new int[] {tributes.get("Trib_" + Integer.toString(i)).y_position, tributes.get("Trib_" + Integer.toString(i)).x_position};
+        } arena.set_tribute_positions(positions); }
 
     public void day_cycle() {
+        /*for (String key : tributes.keySet()) {
+            /*if (tributes.get(key).alive == true)  {
+                living_tributes.add(tributes.get(key).name);
+                tributes_to_move.add(key); } } */
+
+        while (tributes_to_move.size() > 0) {
+            current_index = rand.nextInt(tributes_to_move.size());
+            current_key = tributes_to_move.get(current_index);
+            current_tribute = tributes.get(current_key);
+
+            movement_index = rand.nextInt(4);
+            if ((movement_index == 0) && (current_tribute.y_position != 0) && (!(array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))))) {
+                current_tribute.y_position -= 1;
+                positions_sync();
+                System.out.println(current_tribute.name + " Heads north");
+                tributes_to_move.remove(current_index);
+            } else if ((movement_index == 1) && (current_tribute.x_position != 6) && (!(array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))))) { 
+                current_tribute.x_position += 1;
+                positions_sync(); 
+                System.out.println(current_tribute.name + " Heads east");
+                tributes_to_move.remove(current_index);
+            } else if ((movement_index == 2) && (current_tribute.y_position != 6) && (!(array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))))) { 
+                current_tribute.y_position += 1;
+                positions_sync();
+                System.out.println(current_tribute.name + " Heads south");
+                tributes_to_move.remove(current_index);
+            } else if ((movement_index == 3) && (current_tribute.x_position != 0) && (!(array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))))) { 
+                current_tribute.x_position -= 1;
+                positions_sync();
+                System.out.println(current_tribute.name + " Heads west");
+                tributes_to_move.remove(current_index);
+            } else {
+                System.out.println(current_tribute.name + " Stays put.");
+                tributes_to_move.remove(current_index);
+            }
+
+        }
     }
 
     public void run() {
@@ -45,7 +103,6 @@ public class Game {
            System.out.println(tribute_names[i]); }
 
         // creating a HashMap of tributes
-        Map<String, Tribute> tributes = new HashMap<>();
         tributes.put("Trib_0", new Tribute(tribute_names[0], 2, 3 ));
         tributes.put("Trib_1", new Tribute(tribute_names[1], 2, 2 ));
         tributes.put("Trib_2", new Tribute(tribute_names[2], 3, 2 ));
@@ -60,8 +117,12 @@ public class Game {
             if (tributes.get(key).alive == true)  {
                 living_tributes.add(tributes.get(key).name);
                 tributes_to_move.add(key); } }
-
+ 
+        System.out.println("\nThis is the arena:");
         Arena arena = new Arena();
+        arena.update_display();
+        arena.display_arena();
+        day_cycle();
         arena.update_display();
         arena.display_arena();
 
