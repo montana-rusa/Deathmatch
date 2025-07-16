@@ -9,6 +9,9 @@ public class Arena {
     //constructor method
     public Arena() {
         arena_display = new char[7][7];
+     }
+        
+    public void display_reset() {
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 7; j++) {
                 arena_display[i][j] = '-';
@@ -16,8 +19,12 @@ public class Arena {
 
     public void set_tribute_positions(int[][] new_places) {
         for (int i = 0; i < 8; i++) {
-        tribute_positions[i] = new_places[i]; 
-    } }
+        tribute_positions[i] = new_places[i]; }
+
+
+        //System.out.println(Integer.toString(tribute_positions[0][0]));
+        //System.out.println(Integer.toString(tribute_positions[0][1]));
+    }
 
     public void update_display() {
         for (int i = 0; i < 8; i++) {

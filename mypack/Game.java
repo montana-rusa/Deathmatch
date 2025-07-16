@@ -44,31 +44,35 @@ public class Game {
             current_tribute = tributes.get(current_key);
 
             movement_index = rand.nextInt(4);
+
             if ((movement_index == 0) && (current_tribute.y_position != 0) && (!(array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))))) {
                 current_tribute.y_position -= 1;
                 positions_sync();
                 System.out.println(current_tribute.name + " Heads north");
                 tributes_to_move.remove(current_index);
+
             } else if ((movement_index == 1) && (current_tribute.x_position != 6) && (!(array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))))) { 
                 current_tribute.x_position += 1;
                 positions_sync(); 
                 System.out.println(current_tribute.name + " Heads east");
                 tributes_to_move.remove(current_index);
+
             } else if ((movement_index == 2) && (current_tribute.y_position != 6) && (!(array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))))) { 
                 current_tribute.y_position += 1;
                 positions_sync();
                 System.out.println(current_tribute.name + " Heads south");
                 tributes_to_move.remove(current_index);
+
             } else if ((movement_index == 3) && (current_tribute.x_position != 0) && (!(array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))))) { 
                 current_tribute.x_position -= 1;
                 positions_sync();
                 System.out.println(current_tribute.name + " Heads west");
                 tributes_to_move.remove(current_index);
+
             } else {
                 System.out.println(current_tribute.name + " Stays put.");
                 tributes_to_move.remove(current_index);
             }
-
         }
     }
 
@@ -119,10 +123,12 @@ public class Game {
                 tributes_to_move.add(key); } }
  
         System.out.println("\nThis is the arena:");
-        Arena arena = new Arena();
+        arena.display_reset();
         arena.update_display();
         arena.display_arena();
         day_cycle();
+
+        arena.display_reset();
         arena.update_display();
         arena.display_arena();
 
