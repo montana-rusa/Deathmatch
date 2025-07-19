@@ -20,8 +20,9 @@ public class Arena {
         for (int i = 0; i < 8; i++) {
         tribute_positions[i] = new_places[i]; } }
 
-    public void update_display() {
+    public void update_display(boolean[] l) {
         for (int i = 0; i < 8; i++) {
+
             int temp_y = tribute_positions[i][0];
             int temp_x = tribute_positions[i][1];
             arena_display[temp_y][temp_x] = (char) (i + '0');

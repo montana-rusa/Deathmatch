@@ -9,70 +9,123 @@ public class Game {
     List<String> living_tributes  = new ArrayList<>(), tributes_to_move = new ArrayList<>();
     Map<String, Tribute> tributes = new HashMap<>();
     Random rand = new Random();
-    Tribute current_tribute;
+    Tribute current_tribute, winner;
     int current_index, movement_index;
     Arena arena = new Arena();
     String current_key;
     char current_char;
-    public int[][] positions;
+    int[][] positions = new int[8][2];
+    Tribute[] collision_list = new Tribute[2];
+    boolean encounter;
+    boolean[] l = new boolean[8];
 
     //a contains functions for the position arrays
     public boolean array_checker(int[][] a, int[]item) {
         for (int i = 0; i < a.length; i++) {
-            if (a[i] == item) {
+            if (Arrays.equals(a[i], item)) {
                 return true;
             } } return false; }
 
     public void show_arena() {
+
+        for (int i = 0; i < 8; i++) {
+            if (tributes.get("Trib_" + Integer.toString(i)).alive == true) {
+                l[i] = true;
+            } else {
+                l[i] = false; } }
+
         arena.display_reset();
-        arena.update_display();
+        arena.update_display(l);
         arena.display_arena();
     }
 
     // ensuring the positions in the Game and Arena classes match up
     public void positions_sync() {
-        positions = new int[8][2];
         for (int i = 0; i < 8; i++) {
             positions[i] = new int[] {tributes.get("Trib_" + Integer.toString(i)).y_position, tributes.get("Trib_" + Integer.toString(i)).x_position};
         } arena.set_tribute_positions(positions); }
+
+    public void collision(Tribute t) {
+
+        int[] tile = {t.y_position, t.x_position};
+        int count = 0;
+        for (int i = 0; i < 8; i++) {
+            if (Arrays.equals(positions[i], tile)) {
+                collision_list[count] = tributes.get("Trib_" + Integer.toString(i));
+                count += 1; } }
+
+        int who_dies = rand.nextInt(2);
+        if (who_dies == 1) {
+            System.out.println(collision_list[0].name + " encounters and kills " + collision_list[1].name);
+            collision_list[1].alive = false;
+        } else {
+            System.out.println(collision_list[1].name + " encounters and kills " + collision_list[0].name);
+            collision_list[0].alive = false;
+        }
+    }
 
     // moving all the tributes and printing the messages
     public void day_cycle() {
 
         while (tributes_to_move.size() > 0) {
+
             current_index = rand.nextInt(tributes_to_move.size());
             current_key = tributes_to_move.get(current_index);
             current_tribute = tributes.get(current_key);
-            movement_index = rand.nextInt(4);
 
-            if ((movement_index == 0) && (current_tribute.y_position != 0) && (!(array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))))) {
-                current_tribute.y_position -= 1;
-                positions_sync();
-                System.out.println(current_tribute.name + " Heads north");
-                tributes_to_move.remove(current_index);
+            if (current_tribute.alive) {
 
-            } else if ((movement_index == 1) && (current_tribute.x_position != 6) && (!(array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))))) { 
-                current_tribute.x_position += 1;
-                positions_sync(); 
-                System.out.println(current_tribute.name + " Heads east");
-                tributes_to_move.remove(current_index);
+                if (tributes_to_move.size() == 1) {movement_index = 4;}
+                else {movement_index = rand.nextInt(4);}
+                encounter = false;
 
-            } else if ((movement_index == 2) && (current_tribute.y_position != 6) && (!(array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))))) { 
-                current_tribute.y_position += 1;
-                positions_sync();
-                System.out.println(current_tribute.name + " Heads south");
-                tributes_to_move.remove(current_index);
+                if ((movement_index == 0) && (current_tribute.y_position != 0)) {
+                     current_tribute.y_position -= 1;
 
-            } else if ((movement_index == 3) && (current_tribute.x_position != 0) && (!(array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))))) { 
-                current_tribute.x_position -= 1;
-                positions_sync();
-                System.out.println(current_tribute.name + " Heads west");
-                tributes_to_move.remove(current_index);
+                    if (array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))) {
+                        encounter = true; }
 
-            } else {
-                System.out.println(current_tribute.name + " Stays put.");
-                tributes_to_move.remove(current_index);
-            } } }
+                    positions_sync();
+                    System.out.println(current_tribute.name + " heads north");
+                    tributes_to_move.remove(current_index);
+
+                } else if ((movement_index == 1) && (current_tribute.x_position != 6)) { 
+                    current_tribute.x_position += 1;
+
+                    if (array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))) {
+                        encounter = true; }
+
+                    positions_sync(); 
+                    System.out.println(current_tribute.name + " heads east");
+                    tributes_to_move.remove(current_index);
+
+                } else if ((movement_index == 2) && (current_tribute.y_position != 6)) { 
+                    current_tribute.y_position += 1;
+
+                    if (array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))) {
+                        encounter = true; }
+
+                    positions_sync();
+                    System.out.println(current_tribute.name + " heads south");
+                    tributes_to_move.remove(current_index);
+
+                } else if ((movement_index == 3) && (current_tribute.x_position != 0)) { 
+                    current_tribute.x_position -= 1;
+
+                    if (array_checker(arena.tribute_positions, (new int[] {current_tribute.y_position,current_tribute.x_position}))) {
+                        encounter = true; }
+
+                    positions_sync();
+                    System.out.println(current_tribute.name + " heads west");
+                    tributes_to_move.remove(current_index);
+
+                } else {
+                    System.out.println(current_tribute.name + " stays put.");
+                    tributes_to_move.remove(current_index); } 
+
+                if (encounter) {collision(current_tribute);} }
+            else {tributes_to_move.remove(current_index); }
+        } }
 
     //the actual running
     public void run() {
@@ -123,10 +176,49 @@ public class Game {
  
         System.out.println("\nThis is the arena:");
         show_arena();
+        System.out.println("enter y to start the games:");
+        boolean proceed = false;
+        user_in = s.nextLine();
+
+        while (!(proceed)) {
+            if (user_in.trim().equals("y")) {
+                proceed = true;
+            } else {
+                System.out.println("Not a valid input. Try again:");
+                user_in = s.nextLine(); }
+        }
+
+        while (living_tributes.size() > 1) {
+        living_tributes.clear();
+        tributes_to_move.clear();
+
+        for (String key : tributes.keySet()) {
+            if (tributes.get(key).alive == true)  {
+                living_tributes.add(tributes.get(key).name);
+                tributes_to_move.add(key); } }
+
+        System.out.println("This is the list of living tributes:");
+        for (int i = 0; i < living_tributes.size(); i++) {
+           System.out.println(living_tributes.get(i)); }
+
         day_cycle();
+        System.out.println("\nThis is the arena:");
         show_arena();
 
+        System.out.println("enter y to continue:");
+        proceed = false;
+        user_in = s.nextLine();
+
+        while (!(proceed)) {
+            if (user_in.trim().equals("y")) {
+                proceed = true;
+            } else {
+                System.out.println("Not a valid input. Try again:");
+                user_in = s.nextLine(); }
+        } }
+
         s.close();
+        
         }
 
     public static void main(String[] args) { } 
