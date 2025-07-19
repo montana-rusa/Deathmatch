@@ -10,7 +10,7 @@ public class Game {
     Map<String, Tribute> tributes = new HashMap<>();
     Random rand = new Random();
     Tribute current_tribute, winner;
-    int current_index, movement_index;
+    int current_index, movement_index, not_meet = 0;
     Arena arena = new Arena();
     String current_key;
     char current_char;
@@ -18,6 +18,7 @@ public class Game {
     Tribute[] collision_list = new Tribute[2];
     boolean encounter;
     boolean[] l = new boolean[8];
+    
 
     //a contains functions for the position arrays
     public boolean array_checker(int[][] a, int[]item) {
@@ -58,9 +59,18 @@ public class Game {
         if (who_dies == 1) {
             System.out.println(collision_list[0].name + " encounters and kills " + collision_list[1].name);
             collision_list[1].alive = false;
+            collision_list[1].x_position = 10;
+            collision_list[1].y_position = not_meet;
+            not_meet += 1;
+            positions_sync();
+
         } else {
             System.out.println(collision_list[1].name + " encounters and kills " + collision_list[0].name);
             collision_list[0].alive = false;
+            collision_list[0].x_position = 10;
+            collision_list[0].y_position = not_meet;
+            not_meet += 1;
+            positions_sync();
         }
     }
 
@@ -218,7 +228,7 @@ public class Game {
         } }
 
         s.close();
-        
+
         }
 
     public static void main(String[] args) { } 

@@ -22,11 +22,10 @@ public class Arena {
 
     public void update_display(boolean[] l) {
         for (int i = 0; i < 8; i++) {
-
-            int temp_y = tribute_positions[i][0];
-            int temp_x = tribute_positions[i][1];
-            arena_display[temp_y][temp_x] = (char) (i + '0');
-        } }
+            if (l[i]) {
+                int temp_y = tribute_positions[i][0];
+                int temp_x = tribute_positions[i][1];
+                arena_display[temp_y][temp_x] = (char) (i + '0'); } } }
 
     public void display_arena() {
         for (int i = 0; i < 7; i++) {
